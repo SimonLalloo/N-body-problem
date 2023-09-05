@@ -1,5 +1,6 @@
 import numpy as np
 import scipy as sp
+import matplotlib.pyplot as plt
 
 # This is a vector
 # This is the 'thick' r from the pdf
@@ -56,11 +57,11 @@ def move_particles():
             if i == j:
                 continue
             elif i < j:
-                total_force -= forces[i][j]
+                total_force += forces[i][j]
             else :
-                total_force += forces[j][i]
+                total_force -= forces[j][i]
 
-        print("Particle", i, "has total force", total_force)
+        # print("Particle", i, "has total force", total_force)
         update_velocity(i, total_force)
         update_position(i)
 
@@ -69,9 +70,12 @@ def move_particles():
 ###############################################################################
 
 # Init stuff
-path = "/home/simon/repos/N-body-problem/Nbody/Nbody/input_data/circles_N_2.gal"
+# path = "/home/simon/repos/N-body-problem/Nbody/Nbody/input_data/circles_N_4.gal"
+path = "/home/simon/repos/N-body-problem/Nbody/Nbody/input_data/ellipse_N_00010.gal"
+# path = "/home/simon/repos/N-body-problem/Nbody/Nbody/input_data/sun_and_planets_N_3.gal"
+
 file = np.fromfile(path, dtype=float)
-steps = 200
+steps = 20000000
 
 position_x  = file[0::6]
 position_y  = file[1::6]
@@ -93,8 +97,12 @@ print("Step number 0")
 print("X coords", position_x)
 print("Y coords", position_y)
 
+# plt.ion()
+plot = plt.scatter(position_x, position_y)
+plt.axis([0, 1, 0, 1])
+
 for step in range(1, steps + 1):
-    print("\n\n\nStep number", step)
+    print("Step number", step)
 
     # Calculate the forces between each pair of particles
     calc_forces()
@@ -102,10 +110,14 @@ for step in range(1, steps + 1):
     move_particles()
 
     # print("forces ", forces)
-    print("X coords", position_x)
-    print("Y coords", position_y)
+    # print("X coords", position_x)
+    # print("Y coords", position_y)
+    
+    plot.set_offsets(np.c_[position_x, position_y])
+    plt.pause(0.001)
 
 # Put stuff into file
 file.tofile("sol_N_2.gal")
 
 # Add graphics with MatPlotLib using eon? function
+plt.show()
