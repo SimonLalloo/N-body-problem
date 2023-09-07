@@ -71,11 +71,13 @@ def move_particles():
 
 # Init stuff
 # path = "/home/simon/repos/N-body-problem/Nbody/Nbody/input_data/circles_N_4.gal"
-path = "/home/simon/repos/N-body-problem/Nbody/Nbody/input_data/ellipse_N_00010.gal"
+# path = "/home/simon/repos/N-body-problem/Nbody/Nbody/input_data/ellipse_N_00010.gal"
 # path = "/home/simon/repos/N-body-problem/Nbody/Nbody/input_data/sun_and_planets_N_4.gal"
+# Arvids path #
+path = "/home/arvid/Plugg/NumSim/N-body-problem/Nbody/Nbody/input_data/ellipse_N_00010.gal"
 
 file = np.fromfile(path, dtype=float)
-steps = 20000000
+steps = 200
 
 position_x  = file[0::6]
 position_y  = file[1::6]
