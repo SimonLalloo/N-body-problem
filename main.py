@@ -16,7 +16,7 @@ def r(distance):
 
 
 
-# Calculates the force between the given pair of particles using newton's law
+# Calculates the force between the given pair of bodies using newton's law
 # of universal gravity
 def calc_force(i, j):
     dist = distance(i,j)
@@ -24,21 +24,21 @@ def calc_force(i, j):
 
 
 
-# Calculates the force between each pair of particles
+# Calculates the force between each pair of bodies
 def calc_forces():
     for i in range (0, particle_count - 1):
         for j in range (i + 1, particle_count):
-            force = calc_force(i, j)
+            calc_force(i, j)
 
 
 
-# Calculates the acceleration on a particle based on the force applied to it
+# Calculates the acceleration on a body based on the force applied to it
 def acceleration(i, force):
     return force / mass[i]
 
 
 
-# Updates the velocity of a particle based on the force applied to it
+# Updates the velocity of a body based on the force applied to it
 def update_velocity(i, force):
     delta_v = timestep * acceleration(i, force)
     velocity_x[i] = velocity_x[i] + delta_v[0]
@@ -46,20 +46,20 @@ def update_velocity(i, force):
 
 
 
-# Updates the position of a particle based on its velocity
+# Updates the position of a body based on its velocity
 def update_position(i):
     position_x[i] = position_x[i] + timestep * velocity_x[i]
     position_y[i] = position_y[i] + timestep * velocity_y[i]
 
 
 
-# Calculates the total forces on a particle, then updates velocity and position
+# Calculates the total forces on a body, then updates velocity and position
 def move_particles():
     # Loops over each particle
     for i in range (0, particle_count):
         total_force = 0
 
-        # Sums the forces applied on that particle by each other particle
+        # Sums the forces applied on that body by each other particle
         for j in range (0, particle_count):
             if i == j:
                 continue
@@ -97,7 +97,7 @@ epsilon = 10 ** -3
 G = 100 / particle_count
 timestep = 10 ** -5
 
-# Make a 2D array that contains the forces between each pair of particles
+# Make a 2D array that contains the forces
 forces = np.zeros((particle_count, particle_count, 2))
 
 print("Step number 0")
@@ -110,10 +110,10 @@ plt.ion()
 for step in range(1, steps + 1):
     print("Step number", step)
 
-    # Calculate the forces between each pair of particles
+    # Calculate the forces between each pair of bodies
     calc_forces()
-    # Calculate the total force applied on each particle
-    # Use that to calculate velocity, then move the particle
+    # Calculate the total force applied on each body
+    # Use that to calculate velocity, then update position
     move_particles()
     
     # Update the plot
@@ -122,6 +122,3 @@ for step in range(1, steps + 1):
 
 # Make output file
 file.tofile("results.gal")
-
-# Make the graph not disappear when the simulation ends
-plt.show()
